@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PARI × SONA — A Love Beyond Distance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Inter:wght@400;500&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+<style>
+:root{--wine:#210F1A;--plum:#321625;--rose:#D66B91;--blush:#F5D5E1;--ivory:#FFF7F0;--gold:#E8C88C;--mauve:#A7798F;--ink:#100A10;
+--serif:"Cormorant Garamond",Georgia,serif;--sans:Inter,system-ui,sans-serif;--hand:"Dancing Script",cursive}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{background:radial-gradient(ellipse at 50% 0,var(--plum),var(--wine) 55%,var(--ink));color:var(--ivory);font:17px/1.6 var(--sans);overflow:hidden}
+h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.15;margin:.2em 0 .5em}
+h1{font-size:clamp(2rem,7vw,3.6rem)}h2{font-size:clamp(1.6rem,5vw,2.6rem);color:var(--blush)}h3{font-size:1.3rem}
+p{margin:.6em 0}
+.stars{position:fixed;inset:0;pointer-events:none;background:
+radial-gradient(1.5px 1.5px at 12% 20%,#fff8,transparent),radial-gradient(1.5px 1.5px at 78% 12%,#fff8,transparent),radial-gradient(1px 1px at 40% 70%,#fff7,transparent),radial-gradient(1.5px 1.5px at 90% 60%,#fff8,transparent),radial-gradient(1px 1px at 25% 88%,#fff7,transparent),radial-gradient(1px 1px at 60% 35%,#fff7,transparent)}
+.petal{position:fixed;top:-5vh;width:10px;height:14px;background:var(--rose);opacity:.5;border-radius:80% 0 80% 0;pointer-events:none;animation:fall linear infinite}
+@keyframes fall{to{transform:translate(40px,110vh) rotate(360deg)}}
+.scene{position:fixed;inset:0;display:none;overflow-y:auto;padding:max(20px,env(safe-area-inset-top)) 20px 110px;text-align:center}
+.scene.on{display:block}
+.wrap{max-width:720px;margin:0 auto;padding-top:6vh}
+.rv{opacity:0;transform:translateY(10px);animation:fi 1.1s ease forwards}
+@keyframes fi{to{opacity:1;transform:none}}
+.all .rv{animation:none;opacity:1;transform:none}
+button,.btn{font:inherit;cursor:pointer;min-height:44px;padding:.6em 1.4em;border-radius:99px;border:1px solid var(--gold);background:transparent;color:var(--ivory)}
+button.pri{background:linear-gradient(135deg,var(--rose),#b04870);border-color:transparent;box-shadow:0 0 24px #d66b9166}
+button:hover{filter:brightness(1.15)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.card{background:#ffffff0d;border:1px solid #e8c88c44;border-radius:14px;padding:16px 18px;margin:12px 0;text-align:left}
+summary{cursor:pointer;font-family:var(--serif);font-size:1.3rem;color:var(--blush);min-height:44px}
+.note{font-size:.85rem;color:var(--mauve)}
+.chat{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.b{max-width:85%;padding:8px 12px;border-radius:14px;font-size:.95rem;animation:fi .6s forwards;opacity:0}
+.b.p{align-self:flex-end;background:#7a2e50}.b.s{align-self:flex-start;background:#ffffff1c}
+.row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:14px 0}
+#hud{position:fixed;left:0;right:0;bottom:0;padding:8px 14px calc(8px + env(safe-area-inset-bottom));background:#100a10e6;display:none;align-items:center;gap:8px;z-index:5}
+#hud.on{display:flex}#hud button{padding:.4em .9em}
+#bar{flex:1;height:4px;background:#ffffff22;border-radius:4px;overflow:hidden}#bar i{display:block;height:100%;background:var(--gold);width:0;transition:width .5s}
+#menu{background:var(--ink);color:var(--ivory);border:1px solid var(--gold);border-radius:8px;min-height:44px;max-width:38vw}
+#music{position:fixed;top:max(10px,env(safe-area-inset-top));right:10px;z-index:6;display:none;gap:6px;align-items:center;background:#100a10cc;padding:4px 8px;border-radius:99px}
+#music.on{display:flex}#music button{padding:0;width:44px;border-radius:50%}#music input{width:70px}
+.heart{position:fixed;pointer-events:none;z-index:9;animation:up 1.6s ease-out forwards}
+@keyframes up{to{transform:translateY(-120px) scale(1.4);opacity:0}}
+/* cake */
+.cake{position:relative;width:240px;height:200px;margin:30px auto 10px}
+.tier{position:absolute;left:50%;transform:translateX(-50%);border-radius:12px;background:linear-gradient(var(--blush) 0 22%,var(--rose) 22%)}
+.t1{bottom:0;width:240px;height:90px}.t2{bottom:80px;width:160px;height:70px}
+.slice{position:absolute;bottom:0;right:20px;width:60px;height:90px;background:linear-gradient(var(--blush) 0 22%,#f3a9c4 22%);border-radius:6px;opacity:0;transition:transform .8s,opacity .6s}
+.cut .slice{opacity:1;transform:translate(70px,6px) rotate(8deg)}
+.cut .t1{clip-path:polygon(0 0,75% 0,75% 100%,0 100%);width:240px}
+.candle{position:absolute;bottom:148px;width:28px;height:44px;padding:0;border:0;background:linear-gradient(var(--gold),#b8944f);border-radius:4px;min-height:44px}
+.candle::before{content:"";position:absolute;left:8px;top:-16px;width:12px;height:18px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:#fff;box-shadow:0 0 18px 6px orange;opacity:0}
+.lit .candle::before{opacity:1;animation:fl .4s infinite alternate}
+@keyframes fl{to{transform:scale(1.15,.9)}}
+/* gift */
+.gift{position:relative;width:180px;height:170px;margin:40px auto 10px;cursor:pointer;animation:fl2 3s ease-in-out infinite}
+@keyframes fl2{50%{transform:translateY(-8px)}}
+.gbox{position:absolute;bottom:0;width:100%;height:110px;background:#7a1730;border-radius:6px}
+.gbox::after,.glid::after{content:"";position:absolute;left:50%;width:22px;top:0;bottom:0;transform:translateX(-50%);background:var(--gold)}
+.glid{position:absolute;bottom:106px;width:100%;height:36px;background:#8f1d3a;border-radius:6px;transition:transform .9s;transform-origin:left bottom}
+.glid::after{opacity:.9}.open .glid{transform:translate(20px,-60px) rotate(-28deg)}.open{animation:none}
+/* gallery */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin:18px 0}
+.pol{background:var(--ivory);color:var(--ink);padding:8px 8px 12px;border-radius:3px;border:0;transform:rotate(var(--r));font-family:var(--hand);font-size:1.05rem}
+.pol div,.pol img{aspect-ratio:1;width:100%;object-fit:cover;background:linear-gradient(135deg,var(--blush),var(--mauve));display:flex;align-items:center;justify-content:center;font:.75rem var(--sans);color:var(--plum)}
+dialog{background:var(--wine);color:var(--ivory);border:1px solid var(--gold);border-radius:14px;max-width:min(92vw,560px);text-align:center}dialog::backdrop{background:#000c}
+dialog img,dialog .ph{width:100%;max-height:60vh;object-fit:contain;aspect-ratio:1;background:linear-gradient(135deg,var(--blush),var(--mauve));display:flex;align-items:center;justify-content:center;color:var(--plum)}
+/* letters, stars */
+.env{width:100%;margin:8px 0}.env[aria-expanded=true]{background:#ffffff14}
+.paper{background:var(--ivory);color:#3a1f2c;border-radius:6px;padding:18px 20px;margin:6px 0 16px;text-align:left;font-family:var(--serif);font-size:1.2rem}
+#sky{position:relative;height:340px;margin:10px auto;max-width:520px}
+.star{position:absolute;width:44px;height:44px;border-radius:50%;padding:0;border:0;background:radial-gradient(#fff 0 3px,#ffd9a066 4px,transparent 18px)}
+.star.seen{background:radial-gradient(var(--gold) 0 5px,#e8c88c88 6px,transparent 22px)}
+#svgl{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+/* promise & letter */
+.big{font-family:var(--serif);font-size:clamp(1.25rem,4vw,1.6rem)}
+.glow{font-size:60px;filter:drop-shadow(0 0 18px var(--rose));animation:fl2 3s ease-in-out infinite}
+textarea{width:100%;min-height:140px;background:var(--ivory);color:#3a1f2c;border-radius:10px;padding:12px;font:1.05rem var(--serif);border:0}
+label{display:block;text-align:left;margin:10px 0 4px}
+.letter{background:#fff7f0f2;color:#3a1f2c;border-radius:6px;padding:clamp(18px,5vw,40px);text-align:left;font-family:var(--serif);font-size:clamp(1.15rem,3.4vw,1.3rem);line-height:1.65;box-shadow:0 0 60px #e8c88c33;margin:20px 0}
+.letter h2{color:#8f1d3a;text-align:center}.sig{font-family:var(--hand);font-size:2rem;color:#8f1d3a;text-align:right}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-delay:0s!important;transition-duration:.01s!important}.petal{display:none}}
+</style>
+</head>
+<body>
+<div class="stars" aria-hidden="true"></div><div id="petals" aria-hidden="true"></div>
+<div id="music"><button id="mt" aria-label="Play or pause music">♪</button><input id="vol" type="range" min="0" max="1" step=".05" value=".5" aria-label="Music volume"><span class="note" id="mn"></span></div>
+<audio id="aud" loop preload="none"></audio>
+
+<main>
+<section class="scene on" data-t="Opening"><div class="wrap" id="s0"></div></section>
+<section class="scene" data-t="Welcome"><div class="wrap" id="s1"></div></section>
+<section class="scene" data-t="Our Love Story"><div class="wrap" id="s2"></div></section>
+<section class="scene" data-t="Cake"><div class="wrap" id="s3"></div></section>
+<section class="scene" data-t="Gift"><div class="wrap" id="s4"></div></section>
+<section class="scene" data-t="Memories"><div class="wrap" id="s5"></div></section>
+<section class="scene" data-t="Open When Letters"><div class="wrap" id="s6"></div></section>
+<section class="scene" data-t="Our Future"><div class="wrap" id="s7"></div></section>
+<section class="scene" data-t="The Promise"><div class="wrap" id="s8"></div></section>
+<section class="scene" data-t="The Letter"><div class="wrap" id="s9"></div></section>
+<section class="scene" data-t="Closing"><div class="wrap" id="s10"></div></section>
+</main>
+<dialog id="dlg" aria-label="Photo viewer"><div id="dc"></div><p id="dcap"></p><div class="row"><button id="dp">← Previous</button><button id="dx">Close</button><button id="dn">Next →</button></div></dialog>
+<nav id="hud" aria-label="Chapter navigation"><button id="prev" aria-label="Previous chapter">←</button><div id="bar" role="progressbar" aria-label="Progress"><i></i></div><select id="menu" aria-label="Jump to chapter"></select><button id="next" aria-label="Next chapter">→</button></nav>
+
+<script>
+"use strict";
+/* ========== CONTENT CONFIG — edit everything personal here ========== */
+const C={
+ pari:"Pari",sona:"Sona",date:"28 October 2026",
+ audio:"assets/audio/romantic-theme.mp3", // add your own licensed file; site works without it
+ sample:"Editable sample — not real chat history",
+ tl:[
+  {h:"It All Started With a Little Hello",p:"Neither of us knew where that first little connection on Facebook would lead. Sometimes the most beautiful stories begin in the simplest ways.",note:"[Add: how you connected, who messaged first, first impression]"},
+  {h:"From a Friend Request to My Favourite Person",p:"Our conversations found a new place to grow on WhatsApp. Little messages started becoming moments I looked forward to.",chat:[["p","[Sample] Hey, are you free to chat here?"],["s","[Sample] Sure! This is easier 🙂"]]},
+  {h:"The Little Messages That Brought Us Closer",p:"A few early messages that mattered.",chat:[["p","[First memorable text — edit]"],["s","[A funny moment — edit]"],["p","[An inside joke — edit]"]]},
+  {h:"The Calls I Never Wanted to End",p:"Your voice made the distance feel a little smaller. Sometimes we laughed, sometimes we talked about everything, and sometimes simply being there for each other was enough.",note:"[Add a real call memory or audio only if you want to]"},
+  {h:"The Moments That Made Us Smile",p:"Laughter, silly jokes and happy days.",note:"[Add your funniest memories and inside jokes]",heart:1},
+  {h:"Even on the Days That Were Not Easy",p:"Love isn't only about the days when everything feels perfect. Sometimes it is about listening, being patient, trying to understand, and remembering that we are both human.",note:"Supporting each other when sad or stressed, motivating each other, and working through misunderstandings with patience and respect. [Add your own details]"},
+  {h:"The Day Pari Asked Sona a Very Special Question",p:"The WhatsApp proposal. [Date, if you want it: add here]",chat:[["p","[Pari's actual proposal message — paste here]"],["s","[Sona's reply — optional, only if she wants it shown]"]],end:["And somewhere in those little messages, my heart found its answer. ❤️","That was one of the moments that made our story even more special."]},
+  {h:"The Distance Between Us Is Not the Whole Story",p:"Two places, one heart. A virtual hug and a kiss sent across the distance — and a list of things to do together when we finally meet. [Add your own: date ideas, places to visit]"},
+  {h:"This Is Only the Beginning",p:"We have already written so many little chapters together. There are still so many more waiting for us. [Future-dream ideas: first date, a trip, a goal to support each other in — edit these]"}],
+ gallery:[{src:"",cap:"Add a memory",alt:"Placeholder for a photo of us"},{src:"",cap:"Add a memory",alt:"Placeholder photo"},{src:"",cap:"Add a memory",alt:"Placeholder photo"},{src:"",cap:"Add a memory",alt:"Placeholder photo"}], // src e.g. "assets/images/memories/1.jpg"
+ giftText:"A promise: I'll keep listening, keep learning, and keep making time for you. [Replace with your own gift note]",
+ letters:[
+  ["Open when you miss me","I miss you too. Distance is real, but so is everything we've built. Call me, send a message, or just read this and know I'm thinking of you."],
+  ["Open when you feel sad","You don't have to be okay right now. Breathe. Let it be a hard day. I'm here to listen, and your feelings matter to me."],
+  ["Open when you doubt yourself","I see your strength even when you don't. You've come through hard days before. You're allowed to grow at your own pace."],
+  ["Open when you want to remember how much I love you","I love you for who you are, not for being perfect. Every message, every call, every smile is a reason."]],
+ values:[["Honest communication","We say what we feel, kindly and clearly."],["Trust","We give it and earn it, every day."],["Patience","We give each other time to understand."],["Mutual respect","We listen, even when we disagree."],["Supporting goals","Your dreams matter as much as ours."],["Understanding","On hard days, we choose to be gentle."],["Making time","We make room for each other."],["A shared future","We keep building it, one choice at a time."]],
+ promiseIntro:"Sona, I cannot promise that every day will be perfect.\n\nBut I want to keep learning to understand you, listening when things are difficult, celebrating your happiness, and supporting you through the moments when life feels heavy.\n\nI want us to keep choosing each other, not only when love feels easy, but also when it asks us to be patient.\n\nDistance may keep us apart today, but it doesn't have to stop us from building something beautiful together.",
+ promiseQ:"Will you promise to keep growing with me, standing beside me, and working toward our forever? ❤️",
+ letterTitle:"To My Sona, My Today and All My Tomorrows ❤️",
+ letter:`My Sona, meri jaan… ❤️
+
+If you're reading this, it means you've chosen to make this little promise with me. And honestly, I wish I could be beside you right now, holding your hand, looking into your eyes, and telling you everything that my heart sometimes struggles to express in words.
+
+Happy Anniversary, my love. ❤️
+
+Do you remember how our story began? Just a simple connection on Facebook, then our conversations on WhatsApp, then those calls that slowly made you such an important part of my life. Somewhere between those little messages, our silly conversations, our smiles, our misunderstandings, and our late-night talks, you became someone I never want to lose.
+
+I never knew that a person who started as a stranger could become such a beautiful part of my world. But then you came into my life, Sona, and little by little, you made your own place in my heart.
+
+I know our love story isn't always easy. Sometimes distance makes me wish I could simply appear beside you when you're sad. Sometimes I wish I could hug you when your day goes wrong, hold your hand when you're worried, and sit beside you even when neither of us has anything to say.
+
+I wish I could turn every difficult day into a better one just by being there.
+
+But until that day comes, I want you to remember something: you don't have to be happy all the time to be loved by me.
+
+On your good days, I'll celebrate with you. On your difficult days, I'll listen. When you feel lost, I'll remind you of your strength. When we misunderstand each other, I want us to learn to communicate instead of letting silence hurt us. And when life becomes difficult, I want us to face it as two people who are willing to understand, respect, and support one another.
+
+I'm not promising you a perfect Pari. I'm promising you a Pari who wants to keep learning how to love you better.
+
+My Sona, I want more than beautiful messages and romantic promises. I want the little things with you. I want ordinary mornings, random calls, silly arguments that end in laughter, celebrations of our smallest achievements, and peaceful evenings when we can finally be together without counting the kilometres between us.
+
+I want us to grow, chase our dreams, support our families, and become better people without ever forgetting to make space for each other.
+
+And one day, when this distance is finally behind us, I want to look at you and smile because we'll remember how far we've come. All those messages, all those calls, all those moments when we missed each other — they'll become part of the story we tell ourselves.
+
+I don't know exactly what every tomorrow will look like. But I know what I want to keep working toward: a future where we continue to choose each other freely, with trust, loyalty, patience, honesty, and love.
+
+Thank you for being Sona. Thank you for the smiles, the conversations, the memories, and the little moments that mean more to me than you might realise.
+
+And thank you for being willing to dream about a forever with me.
+
+If I could make one wish tonight, it wouldn't be for a perfect life. It would be for the chance to keep building a beautiful one with you. ❤️
+
+So, my Sona, wherever life takes us, I hope we never stop talking, never stop understanding each other, never stop laughing together, and never stop finding our way back to each other with love and respect.
+
+Until I can hold you in my arms, let these words hold a little piece of my heart for you.
+
+You are my favourite chapter, my sweetest surprise, and the person with whom I want to write many more.
+
+Happy Anniversary, Sona. ❤️
+
+I love you more than these words can fully explain.
+
+With all my love, today and for all the tomorrows we choose together,`,
+ sign:"Forever yours,\nYour Pari ❤️",
+ last:"Two hearts, two places, one beautiful story — and so many chapters still waiting to be written. 💗"
+};
+
+/* ========== helpers ========== */
+const $=s=>document.querySelector(s);
+const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
+const btn=(x,f,c)=>{const b=el("button",c||"",x);b.type="button";b.onclick=f;return b};
+const RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
+const rv=(e,i)=>{e.classList.add("rv");e.style.animationDelay=(RM?0:i*.9)+"s";return e};
+const scenes=[...document.querySelectorAll(".scene")];
+const wrap=i=>$("#s"+i);
+function burst(x,y,n=12){for(let i=0;i<n;i++){const h=el("span","heart","❤");h.style.left=(x+(Math.random()-.5)*140)+"px";h.style.top=(y+(Math.random()-.5)*40)+"px";h.style.color=Math.random()>.5?"#D66B91":"#E8C88C";document.body.append(h);setTimeout(()=>h.remove(),1700)}}
+const mid=()=>burst(innerWidth/2,innerHeight/2,18);
+const para=(parent,text,cls)=>text.split("\n\n").forEach((t,i)=>parent.append(rv(el("p",cls,t),i)));
+for(let i=0;i<8;i++){const p=el("i","petal");p.style.left=Math.random()*100+"vw";p.style.animationDuration=14+Math.random()*10+"s";p.style.animationDelay=-Math.random()*20+"s";$("#petals").append(p)}
+
+/* ========== navigation ========== */
+let cur=0,locked=false;
+const menu=$("#menu");scenes.forEach((s,i)=>{if(i){const o=el("option",null,i+". "+s.dataset.t);o.value=i;menu.append(o)}});
+function go(i){if(i<0||i>=scenes.length)return;scenes.forEach((s,k)=>s.classList.toggle("on",k===i));cur=i;
+ $("#hud").classList.toggle("on",i>0);$("#bar i").style.width=(i/(scenes.length-1)*100)+"%";$("#bar").setAttribute("aria-valuenow",Math.round(i/(scenes.length-1)*100));
+ menu.value=i||1;scenes[i].scrollTop=0;try{sessionStorage.setItem("ps",i)}catch(e){}
+ const h=scenes[i].querySelector("h1,h2");if(h){h.tabIndex=-1;h.focus({preventScroll:true})}}
+$("#prev").onclick=()=>go(cur-1);$("#next").onclick=()=>go(cur+1);menu.onchange=()=>go(+menu.value);
+const nextBtn=(x,t)=>btn(x||"Continue →",()=>go(t??cur+1),"pri");
+
+/* ========== music ========== */
+const aud=$("#aud"),mt=$("#mt");let fade;
+aud.src=C.audio;aud.volume=.5;
+$("#vol").oninput=e=>{aud.volume=+e.target.value};
+function startMusic(){$("#music").classList.add("on");aud.volume=0;aud.play().then(()=>{mt.textContent="❚❚";const t=+$("#vol").value;clearInterval(fade);fade=setInterval(()=>{aud.volume=Math.min(t,aud.volume+.02);if(aud.volume>=t)clearInterval(fade)},100)}).catch(()=>{$("#mn").textContent="No music file";mt.disabled=true})}
+mt.onclick=()=>{if(aud.paused){aud.play();mt.textContent="❚❚"}else{aud.pause();mt.textContent="♪"}};
+aud.onerror=()=>{$("#mn").textContent="No music file";mt.disabled=true};
+
+/* ========== scene 0: opening ========== */
+(()=>{const w=wrap(0);
+ w.append(rv(el("h1",null,"Somewhere between a hello and a thousand little conversations, you became someone very special."),0));
+ w.append(rv(el("p","big","Sona, someone has created a little world just for you."),3));
+ const b=rv(btn("Open My Surprise ❤️",e=>{if(locked)return;locked=true;burst(e.clientX||innerWidth/2,e.clientY||innerHeight/2,16);startMusic();setTimeout(()=>{go(1);locked=false},RM?0:900)},"pri"),5);w.append(b)})();
+
+/* ========== scene 1: welcome ========== */
+(()=>{const w=wrap(1);w.append(rv(el("h1",null,"Happy Anniversary, My Sona ❤️"),0));
+ w.append(rv(el("p","big","Today isn't just another date. It's a celebration of our story, our little moments, our difficult days, our laughter, and the love we continue to build despite the distance."),1));
+ w.append(rv(el("p","big","This little world is my gift to you. Take your time, explore every corner, and discover the things my heart wants to tell you."),2));
+ w.append(rv(nextBtn("Let's relive our story →"),3))})();
+
+/* ========== scene 2: timeline ========== */
+(()=>{const w=wrap(2);w.append(el("h2",null,"Our Love Story"));
+ C.tl.forEach((m,i)=>{const d=el("details","card");d.append(el("summary",null,(i+1)+". "+m.h));d.append(el("p",null,m.p));
+  if(m.note)d.append(el("p","note",m.note));
+  if(m.heart)d.append(btn("Send a heart 💗",e=>burst(e.clientX,e.clientY)));
+  if(m.chat){const box=el("div","chat");const run=btn("Show the messages",()=>{run.remove();m.chat.forEach((c,k)=>{const b=el("div","b "+c[0],c[1]);b.style.animationDelay=(RM?0:k*1.1)+"s";box.append(b)});
+   if(m.end)m.end.forEach((t,k)=>{const q=el("p","big",t);q.className="big b";q.style.animationDelay=(RM?0:(m.chat.length+k)*1.1+.6)+"s";q.style.maxWidth="100%";box.append(q)})});
+   d.append(run,box,el("p","note",C.sample+". Nothing here is invented history."))}
+  w.append(d)});
+ w.append(nextBtn("On to the surprises →"))})();
+
+/* ========== scene 3: cake ========== */
+(()=>{const w=wrap(3);w.append(el("h2",null,"Sona, make a little wish. ❤️"));
+ const cake=el("div","cake");cake.setAttribute("role","img");cake.setAttribute("aria-label","Anniversary cake with three candles");
+ const msg=el("p","big","Tap the candles to light them.");const row=el("div","row");
+ cake.append(el("div","tier t1"),el("div","tier t2"),el("div","slice"));
+ [70,106,142].forEach(l=>{const c=el("button","candle");c.style.left=l+"px";c.setAttribute("aria-label","Light candle");c.onclick=light;cake.append(c)});
+ function reset(){cake.classList.remove("lit","cut");msg.textContent="Tap the candles to light them.";row.replaceChildren(btn("Light all candles",light))}
+ function light(){if(cake.classList.contains("lit"))return;cake.classList.add("lit");msg.textContent="Close your eyes and make a wish.";row.replaceChildren(btn("I Made My Wish ✨",wish,"pri"))}
+ function wish(){mid();msg.textContent="Now, let's cut the cake.";row.replaceChildren(btn("Cut the cake 🍰",cut,"pri"))}
+ function cut(){cake.classList.add("cut");cake.classList.remove("lit");mid();msg.textContent="Happy Anniversary, My Sona! ❤️ I wish I could share the first slice with you in person.";row.replaceChildren(btn("Restart",reset),nextBtn("Next surprise →"))}
+ w.append(cake,msg,row);reset()})();
+
+/* ========== scene 4: gift ========== */
+(()=>{const w=wrap(4);w.append(el("h2",null,"I have one more little surprise for you."));
+ const g=el("button","gift");g.setAttribute("aria-label","Open the gift box");g.style.cssText="background:none;border:0;display:block";g.append(el("div","gbox"),el("div","glid"));
+ const card=el("div","paper");card.hidden=true;card.textContent=C.giftText;const row=el("div","row");
+ g.onclick=()=>{if(g.classList.contains("open"))return;g.classList.add("open");setTimeout(()=>{card.hidden=false;mid();row.replaceChildren(btn("Replay",()=>{g.classList.remove("open");card.hidden=true;row.replaceChildren()}),nextBtn())},RM?0:900)};
+ w.append(g,card,row)})();
+
+/* ========== scene 5: gallery ========== */
+(()=>{const w=wrap(5);w.append(el("h2",null,"Our Little Memory Universe"));
+ w.append(el("p","note","Add photos in CONFIG → gallery (src: assets/images/memories/1.jpg)."));
+ const dlg=$("#dlg"),dc=$("#dc");let k=0;
+ const media=g=>{if(g.src){const i=el("img");i.src=g.src;i.alt=g.alt;i.loading="lazy";i.onerror=()=>i.replaceWith(ph(g));return i}return ph(g)};
+ const ph=g=>{const d=el("div","ph","Photo goes here");d.setAttribute("role","img");d.setAttribute("aria-label",g.alt);return d};
+ const show=n=>{k=(n+C.gallery.length)%C.gallery.length;const g=C.gallery[k];dc.replaceChildren(media(g));$("#dcap").textContent=g.cap};
+ const grid=el("div","grid");
+ C.gallery.forEach((g,i)=>{const b=el("button","pol");b.style.setProperty("--r",(i%2?2:-2)+"deg");b.append(media(g),el("span",null,g.cap));b.onclick=()=>{show(i);dlg.showModal()};grid.append(b)});
+ $("#dp").onclick=()=>show(k-1);$("#dn").onclick=()=>show(k+1);$("#dx").onclick=()=>dlg.close();
+ dlg.addEventListener("keydown",e=>{if(e.key==="ArrowLeft")show(k-1);if(e.key==="ArrowRight")show(k+1)});
+ let sx=0;dlg.addEventListener("touchstart",e=>sx=e.touches[0].clientX,{passive:true});dlg.addEventListener("touchend",e=>{const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>50)show(k+(d<0?1:-1))});
+ w.append(grid,nextBtn())})();
+
+/* ========== scene 6: open-when letters ========== */
+(()=>{const w=wrap(6);w.append(el("h2",null,"Open when…"));
+ C.letters.forEach(([t,x])=>{const b=el("button","env","✉ "+t);b.setAttribute("aria-expanded","false");const p=el("div","paper",x);p.hidden=true;
+  b.onclick=()=>{const o=p.hidden;p.hidden=!o;b.setAttribute("aria-expanded",o)};w.append(b,p)});
+ w.append(nextBtn())})();
+
+/* ========== scene 7: constellation ========== */
+(()=>{const w=wrap(7);w.append(el("h2",null,"Our Future Together"));w.append(el("p","note","Tap each star."));
+ const sky=el("div");sky.id="sky";const out=el("p","big","");out.setAttribute("aria-live","polite");let seen=0;const fin=el("div");
+ const pos=[[50,30],[30,12],[12,32],[22,62],[50,92],[78,62],[88,32],[70,12]];
+ C.values.forEach(([t,x],i)=>{const s=el("button","star");s.style.left=`calc(${pos[i][0]}% - 22px)`;s.style.top=`calc(${pos[i][1]}% - 22px)`;s.setAttribute("aria-label",t);
+  s.onclick=()=>{out.textContent=t+": "+x;if(!s.classList.contains("seen")){s.classList.add("seen");if(++seen===8){fin.replaceChildren(el("p","big","Forever is not one perfect moment. It is the many little choices we continue to make together."),nextBtn("To the promise →"))}}};sky.append(s)});
+ w.append(sky,out,fin)})();
+
+/* ========== scene 8: promise ========== */
+let promiseText="";
+(()=>{const w=wrap(8);const box=el("div");w.append(box);
+ function intro(){box.replaceChildren();const h=el("h2",null,"A Promise");box.append(h);para(box,C.promiseIntro,"big");
+  box.append(rv(el("p","big",C.promiseQ),5));
+  box.append(rv(Object.assign(el("div","row"),{}),6));const row=box.lastChild;
+  row.append(btn("Yes, Pari. Let's keep choosing each other. ❤️",e=>{mid();box.replaceChildren(el("div","glow","❤"),el("h2",null,"Thank you, my Sona."),el("p","big","Every little choice counts."),nextBtn("Read Pari's letter →"))},"pri"),
+   btn("I want to write you my own promise.",()=>{box.replaceChildren(el("h2",null,"Your own promise"));
+    const l=el("label",null,"Write your promise in your own words");l.htmlFor="pt";const t=el("textarea");t.id="pt";t.maxLength=1500;t.value=promiseText;
+    box.append(l,t,el("p","note","This stays on your device only. It is not sent to Pari."),nextBtn("Continue to the letter →"));box.lastChild.addEventListener("click",()=>{promiseText=t.value})}));
+  box.append(rv(el("p","note","No pressure. You can also use → below to move on."),7))}
+ intro();w.addEventListener("replay",intro)})();
+
+/* ========== scene 9: final letter ========== */
+(()=>{const w=wrap(9);const lt=el("article","letter");lt.append(el("h2",null,C.letterTitle));
+ C.letter.split("\n\n").forEach((t,i)=>lt.append(rv(el("p",null,t),i)));
+ lt.append(rv(el("p","sig",C.sign.replace("\n"," — ")),C.letter.split("\n\n").length));lt.append(rv(el("p",null,C.last),C.letter.split("\n\n").length+1));
+ const row=el("div","row");
+ row.append(btn("Show the full letter",()=>w.classList.add("all")),btn("Read it again, whenever you miss me",()=>{w.classList.remove("all");lt.querySelectorAll(".rv").forEach(p=>{p.style.animation="none";void p.offsetWidth;p.style.animation=""});scenes[9].scrollTop=0}),nextBtn("Closing →"));
+ w.append(lt,row)})();
+
+/* ========== scene 10: closing ========== */
+(()=>{const w=wrap(10);
+ [["p","big","Sona, this little world was made for you. But the memories we make outside this screen are the ones I look forward to most."],["h1",null,"Happy Anniversary, My Love ❤️"],["p","big",C.date],["p","big","Forever isn't about knowing every tomorrow. It's about choosing to build the next one together."],["p","big","With love, from Pari to Sona. ❤️"]].forEach(([t,c,x],i)=>w.append(rv(el(t,c,x),i*1.2)));
+ const row=el("div","row");[["Read the letter again",9],["Revisit the memories",5],["Replay the cake",3],["Replay the gift",4],["Back to the beginning",0]].forEach(([x,i])=>row.append(btn(x,()=>go(i))));w.append(row)})();
+
+try{const s=+sessionStorage.getItem("ps");if(s>0){go(s);startMusic&&0}}catch(e){}
+</script>
+</body>
+</html>
