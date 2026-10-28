@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pari~Naba — A Love Beyond Distance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Inter:wght@400;500&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<div class="stars" aria-hidden="true"></div><div id="petals" aria-hidden="true"></div>
+<div id="music"><button id="mt" aria-label="Turn music on or off" title="Music on/off">♫</button></div>
+<audio id="aud" loop preload="none"></audio>
+
+<main>
+<section class="scene on" data-t="Opening"><div class="wrap" id="s0"></div></section>
+<section class="scene" data-t="Welcome"><div class="wrap" id="s1"></div></section>
+<section class="scene" data-t="Our Love Story"><div class="wrap" id="s2"></div></section>
+<section class="scene" data-t="Cake"><div class="wrap" id="s3"></div></section>
+<section class="scene" data-t="Gift"><div class="wrap" id="s4"></div></section>
+<section class="scene" data-t="Memories"><div class="wrap" id="s5"></div></section>
+<section class="scene" data-t="Open When Letters"><div class="wrap" id="s6"></div></section>
+<section class="scene" data-t="Our Future"><div class="wrap" id="s7"></div></section>
+<section class="scene" data-t="The Promise"><div class="wrap" id="s8"></div></section>
+<section class="scene" data-t="The Letter"><div class="wrap" id="s9"></div></section>
+<section class="scene" data-t="Closing"><div class="wrap" id="s10"></div></section>
+</main>
+<dialog id="dlg" aria-label="Photo viewer"><div id="dc"></div><p id="dcap"></p><div class="row"><button id="dp">← Previous</button><button id="dx">Close</button><button id="dn">Next →</button></div></dialog>
+<nav id="hud" aria-label="Chapter navigation"><button id="prev" aria-label="Previous chapter">←</button><select id="menu" aria-label="Jump to chapter"></select><button id="next" aria-label="Next chapter">→</button></nav>
+
+<script src="script.js" defer></script>
+
+</body>
+</html>
